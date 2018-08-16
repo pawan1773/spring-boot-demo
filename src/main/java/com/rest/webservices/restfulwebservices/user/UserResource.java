@@ -51,6 +51,7 @@ public class UserResource {
 			throw new NoSuchUserException("No user with id: " + id);
 
 		// HATEOAS: Hypermedia As The Engine Of Application State
+		
 		Resource<User> resource = new Resource<User>(user);
 		// linkTo is a static method of ControllerLinkBuilder
 		// we have used static import to make it work

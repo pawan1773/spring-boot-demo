@@ -1,11 +1,14 @@
 package com.rest.webservices.restfulwebservices.user;
 
 import java.net.URI;
+
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import com.rest.webservices.restfulwebservices.exception.NoSuchUserException;
 
@@ -40,11 +45,20 @@ public class UserResource {
 	}
 
 	@GetMapping(path = "users/{id}")
-	public User retrieveUser(@PathVariable("id") int id) {
+	public Resource<User> retrieveUser(@PathVariable("id") int id) {
 		User user = userDaoService.findOne(id);
 		if (null == user)
 			throw new NoSuchUserException("No user with id: " + id);
-		return user;
+
+		// HATEOAS: Hypermedia As The Engine Of Application State
+		Resource<User> resource = new Resource<User>(user);
+		// linkTo is a static method of ControllerLinkBuilder
+		// we have used static import to make it work
+		// we will send link to access all users in response all with actual response
+		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		resource.add(linkTo.withRel("all-users"));
+		// return user;
+		return resource;
 	}
 
 	@PostMapping(path = "users")

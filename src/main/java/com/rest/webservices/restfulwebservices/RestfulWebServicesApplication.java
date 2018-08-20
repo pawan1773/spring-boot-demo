@@ -9,6 +9,9 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@EnableSwagger2
 @SpringBootApplication
 public class RestfulWebServicesApplication {
 
@@ -16,6 +19,9 @@ public class RestfulWebServicesApplication {
 		SpringApplication.run(RestfulWebServicesApplication.class, args);
 	}
 
+	/*
+	 * To set default locale
+	 */
 	@Bean
 	public LocaleResolver localeResolver() {
 		// SessionLocaleResolver localeResolver = new SessionLocaleResolver();
@@ -24,7 +30,9 @@ public class RestfulWebServicesApplication {
 		return localeResolver;
 	}
 	
-	// This can be done in application.properties file as well
+	/*
+	 * This can be done in application.properties file as well
+	 */
 	@Bean
 	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();

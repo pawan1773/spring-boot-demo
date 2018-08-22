@@ -28,20 +28,22 @@ import com.rest.webservices.restfulwebservices.exception.NoSuchUserException;
 public class UserResource {
 
 	private UserDaoService userDaoService;
+	private UserRepository userRepository;
 
 	UserResource() {
 
 	}
 
 	@Autowired
-	UserResource(UserDaoService userDaoService) {
+	UserResource(UserDaoService userDaoService, UserRepository userRepository) {
 		super();
 		this.userDaoService = userDaoService;
+		this.userRepository = userRepository;
 	}
 
 	@GetMapping(path = "users")
 	public List<User> retrieveAllUsers() {
-		return userDaoService.findAll();
+		return userRepository.findAll();
 	}
 
 	@GetMapping(path = "users/{id}")
@@ -51,7 +53,7 @@ public class UserResource {
 			throw new NoSuchUserException("No user with id: " + id);
 
 		// HATEOAS: Hypermedia As The Engine Of Application State
-		
+
 		Resource<User> resource = new Resource<User>(user);
 		// linkTo is a static method of ControllerLinkBuilder
 		// we have used static import to make it work

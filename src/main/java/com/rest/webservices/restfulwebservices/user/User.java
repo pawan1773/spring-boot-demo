@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @ApiModel(description = "This contains information about user")
+@Table(name="user_tbl")
 public class User {
 	@Id
 	@GeneratedValue
